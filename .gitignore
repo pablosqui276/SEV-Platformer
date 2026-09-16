@@ -1,0 +1,23 @@
+# Visual Studio (Oculto del sistema)
+.vs/
+
+# Carpetas de compilación (Archivos intermedios y ejecutables)
+/[Bb]in/
+/[Oo]bj/
+[Xx]64/
+[Xx]86/
+Debug/
+Release/
+
+# Archivos temporales de MSBuild y Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sdf
+*.opensdf
+*.db
+*.opendb
+
+# Logs
+*.log
