@@ -8,15 +8,18 @@
 
 #include <list>
 
+// Herencia en c++
 class GameLayer : public Layer
 {
 public:
 	GameLayer(Game* game);
+	// Sobreescritura de un método en c++
 	void init() override;
 	void processControls() override;
 	void update() override;
 	void draw() override;
 	void keysToControls(SDL_Event event);
+	int newEnemyTime = 0;
 
 	Player* player;
 	Background* background;
