@@ -20,6 +20,10 @@ Game::Game() {
 	// Al ser declaradas en el .h recordemos que son globales
 	gameLayer = new GameLayer(this);
 
+	// fuentes
+	TTF_Init();
+	font = TTF_OpenFont("res/sans.ttf", 24);
+
 	loopActive = true; // bucle activo
 	loop();
 }
@@ -74,6 +78,18 @@ void Game::scale() {
 		// Cambiar escala del render
 		SDL_RenderSetScale(renderer, 1, 1);
 	}
-
 }
+
+SDL_Texture* Game::getTexture(string filename) {
+
+	if (mapTextures.find(filename) == mapTextures.end()) {
+		cout << "Nuevo hay que cachearlo " << filename << endl;
+		SDL_Surface* surface = IMG_Load(filename.c_str());
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+		mapTextures[filename] = texture;
+	}
+
+	return mapTextures[filename];
+}
+
 
