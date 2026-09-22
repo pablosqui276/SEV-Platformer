@@ -9,6 +9,9 @@ public:
 	Enemy(float x, float y, Game* game);
 	void draw() override; // Va a sobrescribir
 	void update();
+	void impacted(); // Recibe impacto y pone animación de morir
+	int state;
+	Animation* aDying;
 	Animation* aMoving;
 	Animation* animation; // Referencia a la animación mostrada
 };
