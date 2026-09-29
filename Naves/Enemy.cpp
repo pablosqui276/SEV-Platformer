@@ -2,6 +2,9 @@
 
 Enemy::Enemy(float x, float y, Game* game)
 	: Actor("res/enemigo.png", x, y, 36, 40, game) {
+	vx = 1;
+	vxIntelligence = -1;
+	vx = vxIntelligence;
 
 	state = game->stateMoving;
 
@@ -36,15 +39,23 @@ void Enemy::update() {
 		animation = aDying;
 	}
 
+	// Establecer velocidad
 	if (state != game->stateDying) {
-		vx = -1;
-		x = x + vx;
+		// no está muerto y se ha quedado parado
+		if (vx == 0) {
+			vxIntelligence = vxIntelligence * -1;
+			vx = vxIntelligence;
+		}
 	}
+	else {
+		vx = 0;
+	}
+
 
 }
 
-void Enemy::draw() {
-	animation->draw(x, y);
+void Enemy::draw(float scrollX) {
+	animation->draw(x - scrollX, y);
 }
 
 void Enemy::impacted() {

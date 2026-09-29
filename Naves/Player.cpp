@@ -3,6 +3,8 @@
 Player::Player(float x, float y, Game* game)
 	: Actor("res/jugador.png", x, y, 35, 35, game) {
 
+	onAir = false;
+
 	orientation = game->orientationRight;
 
 	state = game->stateMoving;
@@ -33,6 +35,13 @@ Player::Player(float x, float y, Game* game)
 
 void Player::update() {
 	bool endAnimation = animation->update();
+
+	if (collisionDown == true) {
+		onAir = false;
+	}
+	else {
+		onAir = true;
+	}
 
 	// Acabo la animación, no sabemos cual
 	if (endAnimation) {
@@ -82,10 +91,16 @@ void Player::update() {
 	if (shootTime > 0) {
 		shootTime--;
 	}
-
-	x = x + vx;
-	y = y + vy;
 }
+
+void Player::jump() {
+	if (!onAir) {
+		vy = -16;
+		onAir = true;
+	}
+
+}
+
 
 void Player::moveX(float axis) {
 	vx = axis * 3;
@@ -114,8 +129,8 @@ Projectile* Player::shoot() {
 	}
 }
 
-void Player::draw() {
-	animation->draw(x, y);
+void Player::draw(float scrollX) {
+	animation->draw(x - scrollX, y);
 }
 
 
