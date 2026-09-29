@@ -17,8 +17,8 @@ Player::Player(float x, float y, Game* game)
 		width, height, 160, 40, 6, 4, false, game);
 
 
-	aIdleRight = new Animation("res/jugador_idle_derecha.png", width, height,
-		320, 40, 6, 8, true, game);
+	aIdleRight = new Animation("res/new_jugador_idle_derecha.png", width, height,
+		224, 32, 6, 7, true, game);
 	aIdleLeft = new Animation("res/jugador_idle_izquierda.png", width, height,
 		320, 40, 6, 8, true, game);
 	aRunningRight = new Animation("res/jugador_corriendo_derecha.png", width, height,
