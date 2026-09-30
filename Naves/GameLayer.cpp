@@ -208,8 +208,13 @@ void GameLayer::keysToControls(SDL_Event event) {
 
 }
 
-
 void GameLayer::update() {
+	
+	// Jugador se cae
+	if (player->y > HEIGHT + 80) {
+		init();
+	}
+
 	space->update();
 	background->update();
 
@@ -226,8 +231,12 @@ void GameLayer::update() {
 	// Colisiones
 	for (auto const& enemy : enemies) {
 		if (player->isOverlap(enemy)) {
-			init();
-			return; // Cortar el for
+			player->loseLife();
+			if (player->lifes <= 0) {
+				init();
+				return;
+			}
+
 		}
 	}
 

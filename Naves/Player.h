@@ -16,7 +16,10 @@ public:
 	void moveY(float axis);
 	void jump();
 	void draw(float scrollX = 0) override; // Va a sobrescribir
+	void loseLife();
 
+	int lifes = 3;
+	int invulnerableTime = 0;
 	bool onAir;
 	int orientation;
 	int state;
@@ -26,6 +29,8 @@ public:
 	Animation* aRunningRight;
 	Animation* aRunningLeft;
 	Animation* aShootingRight;
+	Animation* aJumpingRight;
+	Animation* aJumpingLeft;
 	Animation* aShootingLeft;
 
 	Animation* animation; // Referencia a la animación mostrada
