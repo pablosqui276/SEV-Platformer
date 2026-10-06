@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameLayer.h"
+#include "MenuLayer.h"
 
 // Modificamos el constructor para que cree la ventana
 //	Game -> nombre de la clase
@@ -17,8 +18,9 @@ Game::Game() {
 	// https://wiki.libsdl.org/SDL_HINT_RENDER_SCALE_QUALITY
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-	// Al ser declaradas en el .h recordemos que son globales
-	gameLayer = new GameLayer(this);
+	menuLayer = new MenuLayer(this);
+	gameLayer = new GameLayer(this); // Al ser declaradas en el .h recordemos que son globales
+	layer = menuLayer; // Pantalla INICIAL MENULAYER
 
 	// fuentes
 	TTF_Init();
@@ -37,11 +39,12 @@ void Game::loop() {
 		initTick = SDL_GetTicks();
 
 		// Controles
-		gameLayer->processControls();
+		layer->processControls();
 		// Actualizar elementos
-		gameLayer->update();
+		layer->update();
 		// Dibujar
-		gameLayer->draw();
+		layer->draw();
+
 
 
 		endTick = SDL_GetTicks();
