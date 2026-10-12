@@ -11,6 +11,8 @@ public:
 	bool isInRender(float scrollX = 0);
 	bool isOverlap(Actor* actor);
 	bool containsPoint(int pointX, int pointY); // contiene punto
+	void changeTexture(string filename, float width, float height);
+
 	bool collisionDown;
 	bool outRight;
 	bool outLeft;

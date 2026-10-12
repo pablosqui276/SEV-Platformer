@@ -67,5 +67,12 @@ bool Actor::containsPoint(int pointX, int pointY) {
 	return false;
 }
 
+void Actor::changeTexture(string filename, float width, float height) {
+	texture = game->getTexture(filename);
+	// lo que mide el fichero
+	this->fileWidth = width;
+	this->fileHeight = height;
+}
+
 
 

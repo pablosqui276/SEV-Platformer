@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "GameLayer.h"
 
 Enemy::Enemy(float x, float y, Game* game)
 	: Actor("res/enemigo.png", x, y, 32, 32, game) {
@@ -13,13 +14,13 @@ Enemy::Enemy(float x, float y, Game* game)
 
 	//vx = 1;
 
-	aMoving = new Animation("res/new_enemigo_movimiento.png", width, height,
-		160, 32, 6, 5, true, game);
+	aMoving = new Animation("res/enemigo_movimiento.png", width, height,
+		108, 40, 6, 3, true, game);
 	animation = aMoving;
 
 }
 
-void Enemy::update() {
+void Enemy::update(GameLayer* gameLayer) {
 	// Actualizar la animación
 	bool endAnimation = animation->update();
 
@@ -41,31 +42,45 @@ void Enemy::update() {
 
 	// Establecer velocidad
 	if (state != game->stateDying) {
-		// no está muerto y se ha quedado parado
-		if (vx == 0) {
-			vxIntelligence = vxIntelligence * -1;
-			vx = vxIntelligence;
-		}
-		if (outRight) {
-			// mover hacia la izquierda vx tiene que ser negativa
-			if (vxIntelligence > 0) {
-				vxIntelligence = vxIntelligence * -1;
-			}
-			vx = vxIntelligence;
-		}
-		if (outLeft) {
-			// mover hacia la derecha vx tiene que ser positiva
-			if (vxIntelligence < 0) {
-				vxIntelligence = vxIntelligence * -1;
-			}
-			vx = vxIntelligence;
-		}
+		calculateMovement(gameLayer);
 	}
 	else {
 		vx = 0;
 	}
 
 
+}
+
+void Enemy::changeDyingAnimation(string animationPath, float fileWidth, float fileHeight, int updateFrecuency, int totalFrames, bool loop) {
+	aDying = new Animation(animationPath, Actor::width, Actor::height, 
+		fileWidth, fileHeight, updateFrecuency, totalFrames, loop, Actor::game);
+}
+
+void Enemy::changeMovingAnimation(string animationPath, float fileWidth, float fileHeight, int updateFrecuency, int totalFrames, bool loop) {
+	aMoving = new Animation(animationPath, Actor::width, Actor::height,
+		fileWidth, fileHeight, updateFrecuency, totalFrames, loop, Actor::game);
+}
+
+void Enemy::calculateMovement(GameLayer* gameLayer) {
+	// no está muerto y se ha quedado parado
+	if (vx == 0) {
+		vxIntelligence = vxIntelligence * -1;
+		vx = vxIntelligence;
+	}
+	if (outRight) {
+		// mover hacia la izquierda vx tiene que ser negativa
+		if (vxIntelligence > 0) {
+			vxIntelligence = vxIntelligence * -1;
+		}
+		vx = vxIntelligence;
+	}
+	if (outLeft) {
+		// mover hacia la derecha vx tiene que ser positiva
+		if (vxIntelligence < 0) {
+			vxIntelligence = vxIntelligence * -1;
+		}
+		vx = vxIntelligence;
+	}
 }
 
 void Enemy::draw(float scrollX) {

@@ -25,6 +25,12 @@
     <Filter Include="Archivos de origen\Actors">
       <UniqueIdentifier>{4a6c4563-89f5-4329-8f79-5c2412566d32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de origen\Actors\Enemies">
+      <UniqueIdentifier>{26ab366b-702d-4dd5-9728-885e5ef6626d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Actors\Enemies">
+      <UniqueIdentifier>{c9ba56d9-77a5-4184-bb70-9e8382a5994b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -46,9 +52,6 @@
       <Filter>Archivos de origen\Layers</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp">
-      <Filter>Archivos de origen\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
       <Filter>Archivos de origen\Actors</Filter>
     </ClCompile>
     <ClCompile Include="Projectile.cpp">
@@ -75,6 +78,15 @@
     <ClCompile Include="MenuLayer.cpp">
       <Filter>Archivos de origen\Layers</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Archivos de origen\Actors\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonEnemy.cpp">
+      <Filter>Archivos de origen\Actors\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="SpectreEnemy.cpp">
+      <Filter>Archivos de origen\Actors\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -93,9 +105,6 @@
       <Filter>Archivos de encabezado\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
-      <Filter>Archivos de encabezado\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
       <Filter>Archivos de encabezado\Actors</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
@@ -121,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="MenuLayer.h">
       <Filter>Archivos de encabezado\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Archivos de encabezado\Actors\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonEnemy.h">
+      <Filter>Archivos de encabezado\Actors\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SpectreEnemy.h">
+      <Filter>Archivos de encabezado\Actors\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

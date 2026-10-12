@@ -3,7 +3,6 @@
 #include "Layer.h"
 #include "Player.h"
 #include "Background.h"
-#include "Enemy.h"
 #include "Projectile.h"
 #include "Text.h"
 #include "Audio.h"
@@ -15,6 +14,8 @@
 #include <list>
 
 #include "Pad.h"
+
+class Enemy;
 
 // Herencia en c++
 class GameLayer : public Layer

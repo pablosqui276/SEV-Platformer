@@ -1,4 +1,7 @@
 #include "GameLayer.h"
+#include "Enemy.h"
+#include "CommonEnemy.h"
+#include "SpectreEnemy.h"
 
 // Como layer requiere parámetro c te obliga a usar la intaxis " : clase_padre(param)" después del constructor
 GameLayer::GameLayer(Game* game)
@@ -96,7 +99,15 @@ void GameLayer::loadMapObject(char character, float x, float y)
 		break;
 	}
 	case 'E': {
-		Enemy* enemy = new Enemy(x, y, game);
+		Enemy* enemy = new CommonEnemy(x, y, game);
+		// modificación para empezar a contar desde el suelo.
+		enemy->y = enemy->y - enemy->height / 2;
+		enemies.push_back(enemy);
+		space->addDynamicActor(enemy);
+		break;
+	}
+	case 'S': {
+		Enemy* enemy = new SpectreEnemy(x, y, game);
 		// modificación para empezar a contar desde el suelo.
 		enemy->y = enemy->y - enemy->height / 2;
 		enemies.push_back(enemy);
@@ -326,7 +337,7 @@ void GameLayer::update() {
 
 	player->update();
 	for (auto const& enemy : enemies) {
-		enemy->update();
+		enemy->update(this);
 	}
 
 	for (auto const& projectile : projectiles) {
@@ -334,7 +345,7 @@ void GameLayer::update() {
 	}
 
 
-	// Colisiones
+	// Colisiones Enemy - Player
 	for (auto const& enemy : enemies) {
 		if (player->isOverlap(enemy)) {
 			player->loseLife();
@@ -345,8 +356,6 @@ void GameLayer::update() {
 
 		}
 	}
-
-	// Colisiones , Enemy - Projectile
 
 	list<Enemy*> deleteEnemies;
 	list<Projectile*> deleteProjectiles;
@@ -364,10 +373,10 @@ void GameLayer::update() {
 		}
 	}
 
-
+	// Colisiones Enemy - Projectile
 	for (auto const& enemy : enemies) {
 		for (auto const& projectile : projectiles) {
-			if (enemy->isOverlap(projectile)) {
+			if (enemy->isOverlap(projectile) && projectile->owner != enemy) {
 				bool pInList = std::find(deleteProjectiles.begin(),
 					deleteProjectiles.end(),
 					projectile) != deleteProjectiles.end();
@@ -383,6 +392,26 @@ void GameLayer::update() {
 		}
 	}
 
+	// Colisiones Player - projectile
+	for (auto const& projectile : projectiles) {
+		if (player->isOverlap(projectile) && projectile->owner != player) {
+			bool pInList = std::find(deleteProjectiles.begin(),
+				deleteProjectiles.end(),
+				projectile) != deleteProjectiles.end();
+
+			if (!pInList) {
+				deleteProjectiles.push_back(projectile);
+			}
+
+			player->loseLife();
+			if (player->lifes <= 0) {
+				init();
+				return;
+			}
+		}
+	}
+
+	// Si algun enemigo está muerto
 	for (auto const& enemy : enemies) {
 		if (enemy->state == game->stateDead) {
 			bool eInList = std::find(deleteEnemies.begin(),
