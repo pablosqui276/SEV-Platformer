@@ -87,6 +87,9 @@
     <ClCompile Include="SpectreEnemy.cpp">
       <Filter>Archivos de origen\Actors\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="JumpeableEnemy.cpp">
+      <Filter>Archivos de origen\Actors\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -138,6 +141,9 @@
       <Filter>Archivos de encabezado\Actors\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="SpectreEnemy.h">
+      <Filter>Archivos de encabezado\Actors\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpeableEnemy.h">
       <Filter>Archivos de encabezado\Actors\Enemies</Filter>
     </ClInclude>
   </ItemGroup>

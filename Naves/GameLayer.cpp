@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "CommonEnemy.h"
 #include "SpectreEnemy.h"
+#include "JumpeableEnemy.h"
 
 // Como layer requiere parámetro c te obliga a usar la intaxis " : clase_padre(param)" después del constructor
 GameLayer::GameLayer(Game* game)
@@ -108,6 +109,14 @@ void GameLayer::loadMapObject(char character, float x, float y)
 	}
 	case 'S': {
 		Enemy* enemy = new SpectreEnemy(x, y, game);
+		// modificación para empezar a contar desde el suelo.
+		enemy->y = enemy->y - enemy->height / 2;
+		enemies.push_back(enemy);
+		space->addDynamicActor(enemy);
+		break;
+	}
+	case 'J': {
+		Enemy* enemy = new JumpeableEnemy(x, y, game);
 		// modificación para empezar a contar desde el suelo.
 		enemy->y = enemy->y - enemy->height / 2;
 		enemies.push_back(enemy);
@@ -348,10 +357,19 @@ void GameLayer::update() {
 	// Colisiones Enemy - Player
 	for (auto const& enemy : enemies) {
 		if (player->isOverlap(enemy)) {
-			player->loseLife();
-			if (player->lifes <= 0) {
-				init();
-				return;
+			JumpeableEnemy* jumpeable = dynamic_cast<JumpeableEnemy*>(enemy);
+			if (jumpeable != nullptr && player->onAir == true && player->y < enemy->y) {
+				enemy->impacted();
+
+				// El jugador rebota un poco hacia arriba al pisarlo
+				player->vy = -10;
+			}
+			else{
+				player->loseLife();
+				if (player->lifes <= 0) {
+					init();
+					return;
+				}
 			}
 
 		}
@@ -386,8 +404,6 @@ void GameLayer::update() {
 				}
 
 				enemy->impacted();
-				points++;
-				textPoints->content = to_string(points);
 			}
 		}
 	}
