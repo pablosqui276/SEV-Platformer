@@ -90,6 +90,9 @@
     <ClCompile Include="JumpeableEnemy.cpp">
       <Filter>Archivos de origen\Actors\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Collectable.cpp">
+      <Filter>Archivos de origen\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="JumpeableEnemy.h">
       <Filter>Archivos de encabezado\Actors\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Collectable.h">
+      <Filter>Archivos de encabezado\Actors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

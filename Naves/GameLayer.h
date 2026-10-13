@@ -8,6 +8,7 @@
 #include "Audio.h"
 #include "Space.h" // importar
 #include "Tile.h"
+#include "Collectable.h"
 
 #include <fstream> // Leer ficheros
 #include <sstream> // Leer líneas / String
@@ -33,6 +34,7 @@ public:
 	void loadMap(string name);
 	void loadMapObject(char character, float x, float y);
 	void calculateScroll();
+
 	Actor* message;
 	bool pause;
 	float scrollX;
@@ -40,13 +42,16 @@ public:
 	list<Tile*> tiles;
 	Audio* audioBackground;
 	Text* textPoints;
+	Text* textCollectables;
 	Space* space;
 	int points;
 	int newEnemyTime = 0;
+	int nCollectables = 0;
 
 	Player* player;
 	Background* background;
 	Actor* backgroundPoints;
+	Actor* backgroundCollectables;
 	bool controlContinue = false;
 	bool controlShoot = false;
 
@@ -55,6 +60,7 @@ public:
 
 	list<Enemy*> enemies;
 	list<Projectile*> projectiles;
+	list<Collectable*> collectables;
 
 	// Elementos de interfaz
 	SDL_GameController* gamePad;

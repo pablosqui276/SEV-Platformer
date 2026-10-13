@@ -32,13 +32,22 @@ void GameLayer::init() {
 	textPoints = new Text("hola", WIDTH * 0.92, HEIGHT * 0.04, game);
 	textPoints->content = to_string(points);
 
+	// Collectables
+	nCollectables = 0;
+	textCollectables = new Text("hola", WIDTH * 0.7, HEIGHT * 0.04, game);
+	textCollectables->content = to_string(nCollectables);
+
 	background = new Background("res/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, -1, game);
 	backgroundPoints = new Actor("res/icono_puntos.png",
 		WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
+	backgroundCollectables = new Actor("res/icono_recolectable.png",
+		WIDTH * 0.6, HEIGHT * 0.05, 40, 40, game);
 
 	projectiles.clear(); // Vaciar por si reiniciamos el juego
 
 	enemies.clear(); // Vaciar por si reiniciamos el juego
+
+	collectables.clear(); // vaciar si reiniciamos
 
 	loadMap("res/" + to_string(game->currentLevel) + ".txt");
 }
@@ -121,6 +130,14 @@ void GameLayer::loadMapObject(char character, float x, float y)
 		enemy->y = enemy->y - enemy->height / 2;
 		enemies.push_back(enemy);
 		space->addDynamicActor(enemy);
+		break;
+	}
+	case 'R': {
+		Collectable* collectable = new Collectable(x, y, game);
+		// modificación para empezar a contar desde el suelo.
+		collectable->y = collectable->y - collectable->height / 2;
+		collectables.push_back(collectable);
+		space->addDynamicActor(collectable);
 		break;
 	}
 	case '1': {
@@ -353,6 +370,10 @@ void GameLayer::update() {
 		projectile->update();
 	}
 
+	for (auto const& collectable : collectables) {
+		collectable->update();
+	}
+
 
 	// Colisiones Enemy - Player
 	for (auto const& enemy : enemies) {
@@ -360,6 +381,7 @@ void GameLayer::update() {
 			JumpeableEnemy* jumpeable = dynamic_cast<JumpeableEnemy*>(enemy);
 			if (jumpeable != nullptr && player->onAir == true && player->y < enemy->y) {
 				enemy->impacted();
+				points++;
 
 				// El jugador rebota un poco hacia arriba al pisarlo
 				player->vy = -10;
@@ -377,6 +399,8 @@ void GameLayer::update() {
 
 	list<Enemy*> deleteEnemies;
 	list<Projectile*> deleteProjectiles;
+	list<Collectable*> deleteCollectables;
+
 
 	for (auto const& projectile : projectiles) {
 		if (projectile->isInRender(scrollX) == false || projectile->vx == 0) {
@@ -401,6 +425,7 @@ void GameLayer::update() {
 
 				if (!pInList) {
 					deleteProjectiles.push_back(projectile);
+					points++;
 				}
 
 				enemy->impacted();
@@ -427,12 +452,28 @@ void GameLayer::update() {
 		}
 	}
 
+	// Colisiones Collectable - Player
+	for (auto const& collectable : collectables) {
+		if (player->isOverlap(collectable)) {
+			nCollectables++;
+			
+			bool eInList = std::find(deleteCollectables.begin(),
+				deleteCollectables.end(),
+				collectable) != deleteCollectables.end();
+
+			if (!eInList) {
+				deleteCollectables.push_back(collectable);
+			}
+		}
+	}
+
 	// Si algun enemigo está muerto
 	for (auto const& enemy : enemies) {
 		if (enemy->state == game->stateDead) {
 			bool eInList = std::find(deleteEnemies.begin(),
 				deleteEnemies.end(),
 				enemy) != deleteEnemies.end();
+
 
 			if (!eInList) {
 				deleteEnemies.push_back(enemy);
@@ -453,6 +494,14 @@ void GameLayer::update() {
 		delete delProjectile;
 	}
 	deleteProjectiles.clear();
+
+
+	for (auto const& delCollectable : deleteCollectables) {
+		collectables.remove(delCollectable);
+		space->removeDynamicActor(delCollectable);
+		delete delCollectable;
+	}
+	deleteCollectables.clear();
 
 
 	cout << "update GameLayer" << endl;
@@ -478,10 +527,21 @@ void GameLayer::draw() {
 		enemy->draw(scrollX);
 	}
 
+	for (auto const& collectable : collectables) {
+		collectable->draw(scrollX);
+	}
+
+	textPoints->content = to_string(points);
 	textPoints->draw();
 	backgroundPoints = new Actor("res/icono_puntos.png",
-		WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
+		WIDTH * 0.8, HEIGHT * 0.05, 24, 24, game);
 	backgroundPoints->draw();
+
+	textCollectables->content = to_string(nCollectables);
+	textCollectables->draw();
+	backgroundCollectables = new Actor("res/icono_recolectable.png",
+		WIDTH * 0.6, HEIGHT * 0.05, 40, 40, game);
+	backgroundCollectables->draw();
 
 	// HUD
 	if (game->input == game->inputMouse) {
