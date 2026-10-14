@@ -6,7 +6,7 @@
 SpectreEnemy::SpectreEnemy(float x, float y, Game* game)
 	: Enemy(x, y, game) {
 	Enemy::changeMovingAnimation("res/new_enemigo_movimiento.png", 160, 32, 6, 5, true);
-	Enemy::changeDyingAnimation("res/new_enemigo_muerte.png", 256, 32, 6, 8, false);
+	Enemy::changeDyingAnimation("res/new_enemigo_muerte.png", 256, 32, 3, 8, false);
 }
 
 void SpectreEnemy::calculateMovement(GameLayer* gameLayer) {

@@ -31,6 +31,12 @@
     <Filter Include="Archivos de encabezado\Actors\Enemies">
       <UniqueIdentifier>{c9ba56d9-77a5-4184-bb70-9e8382a5994b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de origen\Actors\Platforms">
+      <UniqueIdentifier>{1559bd5b-1eff-4cd3-b31e-e83ae2d11d96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Actors\Platforms">
+      <UniqueIdentifier>{9821788a-dd4d-4878-84f3-c21a02d1f321}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -93,6 +99,12 @@
     <ClCompile Include="Collectable.cpp">
       <Filter>Archivos de origen\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="JumpeablePlatform.cpp">
+      <Filter>Archivos de origen\Actors\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>Archivos de origen\Actors\Platforms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -151,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="Collectable.h">
       <Filter>Archivos de encabezado\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpeablePlatform.h">
+      <Filter>Archivos de encabezado\Actors\Platforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>Archivos de encabezado\Actors\Platforms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

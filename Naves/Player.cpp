@@ -158,7 +158,7 @@ Projectile* Player::shoot() {
 		shootTime = shootCadence;
 		aShootingLeft->currentFrame = 0; //"Rebobinar" animación
 		aShootingRight->currentFrame = 0; //"Rebobinar" animación
-		Projectile* projectile = new Projectile(x, y, 3, this, game);
+		Projectile* projectile = new Projectile(x, y, 7, this, game);
 		if (orientation == game->orientationLeft) {
 			projectile->vx = projectile->vx * -1; // Invertir
 		}

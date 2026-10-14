@@ -3,6 +3,8 @@
 #include "CommonEnemy.h"
 #include "SpectreEnemy.h"
 #include "JumpeableEnemy.h"
+#include "Platform.h"
+#include "JumpeablePlatform.h"
 
 // Como layer requiere parámetro c te obliga a usar la intaxis " : clase_padre(param)" después del constructor
 GameLayer::GameLayer(Game* game)
@@ -137,7 +139,7 @@ void GameLayer::loadMapObject(char character, float x, float y)
 		// modificación para empezar a contar desde el suelo.
 		collectable->y = collectable->y - collectable->height / 2;
 		collectables.push_back(collectable);
-		space->addDynamicActor(collectable);
+		space->addStaticActor(collectable);
 		break;
 	}
 	case '1': {
@@ -145,6 +147,13 @@ void GameLayer::loadMapObject(char character, float x, float y)
 		// modificación para empezar a contar desde el suelo.
 		player->y = player->y - player->height / 2;
 		space->addDynamicActor(player);
+		break;
+	}
+	case 'Y': {
+		Platform* platform = new JumpeablePlatform(x, y, game);
+		platform->y = platform->y - platform->height / 2;
+		platforms.push_back(platform);
+		space->addStaticActor(platform);
 		break;
 	}
 	case '#': {
@@ -374,6 +383,10 @@ void GameLayer::update() {
 		collectable->update();
 	}
 
+	for (auto const& platform : platforms) {
+		platform->update();
+	}
+
 
 	// Colisiones Enemy - Player
 	for (auto const& enemy : enemies) {
@@ -394,6 +407,14 @@ void GameLayer::update() {
 				}
 			}
 
+		}
+	}
+
+	// Colision Player - Platform
+	for (auto const& platform : platforms) {
+	// No usamos onAir en la condicion porque al se estático genera fallos con space
+		if (player->isOverlap(platform) && player->y < platform->y) {
+			platform->action(this);
 		}
 	}
 
@@ -518,6 +539,10 @@ void GameLayer::draw() {
 
 	for (auto const& projectile : projectiles) {
 		projectile->draw(scrollX);
+	}
+
+	for (auto const& platform : platforms) {
+		platform->draw(scrollX);
 	}
 
 	cup->draw(scrollX);

@@ -17,6 +17,7 @@
 #include "Pad.h"
 
 class Enemy;
+class Platform;
 
 // Herencia en c++
 class GameLayer : public Layer
@@ -61,6 +62,7 @@ public:
 	list<Enemy*> enemies;
 	list<Projectile*> projectiles;
 	list<Collectable*> collectables;
+	list<Platform*> platforms;
 
 	// Elementos de interfaz
 	SDL_GameController* gamePad;
