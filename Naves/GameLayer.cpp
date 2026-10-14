@@ -5,6 +5,7 @@
 #include "JumpeableEnemy.h"
 #include "Platform.h"
 #include "JumpeablePlatform.h"
+#include "DestructiblePlatform.h"
 
 // Como layer requiere parámetro c te obliga a usar la intaxis " : clase_padre(param)" después del constructor
 GameLayer::GameLayer(Game* game)
@@ -50,6 +51,8 @@ void GameLayer::init() {
 	enemies.clear(); // Vaciar por si reiniciamos el juego
 
 	collectables.clear(); // vaciar si reiniciamos
+
+	platforms.clear(); // vaciar si reiniciamos
 
 	loadMap("res/" + to_string(game->currentLevel) + ".txt");
 }
@@ -151,6 +154,13 @@ void GameLayer::loadMapObject(char character, float x, float y)
 	}
 	case 'Y': {
 		Platform* platform = new JumpeablePlatform(x, y, game);
+		platform->y = platform->y - platform->height / 2;
+		platforms.push_back(platform);
+		space->addStaticActor(platform);
+		break;
+	}
+	case 'W': {
+		Platform* platform = new DestructiblePlatform(x, y, game);
 		platform->y = platform->y - platform->height / 2;
 		platforms.push_back(platform);
 		space->addStaticActor(platform);
@@ -412,8 +422,8 @@ void GameLayer::update() {
 
 	// Colision Player - Platform
 	for (auto const& platform : platforms) {
-	// No usamos onAir en la condicion porque al se estático genera fallos con space
-		if (player->isOverlap(platform) && player->y < platform->y) {
+		if (player->isOverlap(platform) &&
+			(player->y + player->height / 2) <= (platform->y - platform->height / 2 + 10)) {
 			platform->action(this);
 		}
 	}
@@ -421,6 +431,7 @@ void GameLayer::update() {
 	list<Enemy*> deleteEnemies;
 	list<Projectile*> deleteProjectiles;
 	list<Collectable*> deleteCollectables;
+	list<Platform*> deletePlatforms;
 
 
 	for (auto const& projectile : projectiles) {
@@ -502,6 +513,19 @@ void GameLayer::update() {
 		}
 	}
 
+	// Comprobamos las plataformas a borrar
+	for (auto const& platfom : platforms) {
+		if (platfom->forDestruct) {
+			bool eInList = std::find(deletePlatforms.begin(),
+				deletePlatforms.end(),
+				platfom) != deletePlatforms.end();
+
+			if (!eInList) {
+				deletePlatforms.push_back(platfom);
+			}
+		}
+	}
+
 
 	for (auto const& delEnemy : deleteEnemies) {
 		enemies.remove(delEnemy);
@@ -523,6 +547,13 @@ void GameLayer::update() {
 		delete delCollectable;
 	}
 	deleteCollectables.clear();
+
+	for (auto const& delPlatfornm : deletePlatforms) {
+		platforms.remove(delPlatfornm);
+		space->removeDynamicActor(delPlatfornm);
+		delete delPlatfornm;
+	}
+	deletePlatforms.clear();
 
 
 	cout << "update GameLayer" << endl;

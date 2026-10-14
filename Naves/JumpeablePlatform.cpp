@@ -9,13 +9,11 @@ JumpeablePlatform::JumpeablePlatform(float x, float y, Game* game)
 }
 
 void JumpeablePlatform::action(GameLayer* gameLayer) {
-	if (!initAction && aAction != NULL) {
+	if (aAction != NULL) {
 		initAction = true;
 		animation = aAction;
 		gameLayer->player->vy = -22;
-		if (animation != NULL) {
-			animation->currentFrame = 0;
-		}
+		animation->currentFrame = 0;
 	}
 }
 

@@ -158,6 +158,7 @@
     <ClCompile Include="SpectreEnemy.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="DestructiblePlatform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="SpectreEnemy.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="DestructiblePlatform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

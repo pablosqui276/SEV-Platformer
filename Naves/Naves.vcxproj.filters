@@ -105,6 +105,9 @@
     <ClCompile Include="Platform.cpp">
       <Filter>Archivos de origen\Actors\Platforms</Filter>
     </ClCompile>
+    <ClCompile Include="DestructiblePlatform.cpp">
+      <Filter>Archivos de origen\Actors\Platforms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -168,6 +171,9 @@
       <Filter>Archivos de encabezado\Actors\Platforms</Filter>
     </ClInclude>
     <ClInclude Include="Platform.h">
+      <Filter>Archivos de encabezado\Actors\Platforms</Filter>
+    </ClInclude>
+    <ClInclude Include="DestructiblePlatform.h">
       <Filter>Archivos de encabezado\Actors\Platforms</Filter>
     </ClInclude>
   </ItemGroup>

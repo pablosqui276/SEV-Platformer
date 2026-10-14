@@ -2,10 +2,11 @@
 #include "GameLayer.h"
 
 Platform::Platform(float x, float y, Game* game)
-	: Actor("res/bloque_tierra.png", x, y, 40, 32, game) {
+	: Tile("res/bloque_tierra.png", x, y, game) {
 
 	animation = NULL;
 	initAction = false;
+	forDestruct = false;
 }
 
 void Platform::update() {
