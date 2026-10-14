@@ -465,7 +465,7 @@ void GameLayer::update() {
 		}
 	}
 
-	// Colisiones Player - projectile
+	// Colisiones Player - Projectile
 	for (auto const& projectile : projectiles) {
 		if (player->isOverlap(projectile) && projectile->owner != player) {
 			bool pInList = std::find(deleteProjectiles.begin(),
